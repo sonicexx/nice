@@ -1,6 +1,6 @@
 import express, { Application } from 'express'; //搭建服务器，****app类型？
 import bodyParser from 'body-parser'; //处理 post 请求，解析请求端传递的值
-import { readFile } from './utils'; // 自定义的 readFile 方法
+import { fileOperator, readFile } from './utils'; // 自定义的 readFile 方法
 
 // 创建 app 服务器
 const app: Application = express();
@@ -22,15 +22,22 @@ app.all('*', (req, res, next) => {
 // 请求方法
 app.get('/todolist', (req, res) => {
   // 读取文件数据信息
-  const data = readFile('data.json');
+  // const data = readFile('data.json');
+  const data = fileOperator('data.json');
 
   // 返回给请求端
   res.send(data);
 
   // 访问地址测试：localhost:8080/todolist
 });
+
+// 修改complete
 app.post('/toggle', (req, res) => {});
+
+// 删除
 app.post('/remove', (req, res) => {});
+
+// 增加
 app.post('/add', (req, res) => {});
 
 // 设置监听
