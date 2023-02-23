@@ -16,13 +16,15 @@ export function writeFile<T>(fileName: string, data: T): void {
 // 文件处理函数：取文件数据 》修改数据 》写入数据
 export function fileOperator(fileName: string, fn?: Function): string | void {
   // 取文件数据
-  let data = JSON.parse(readFile(fileName));
+  let data: ITodo[] = JSON.parse(readFile(fileName) || '[]');
 
   // 修改数据：通过传回来的函数参数
-  if (!fn) return data; // 如果没有函数参数，就直接返回数据
+  if (!fn) return JSON.stringify(data); // 如果没有函数参数，就直接返回数据
 
   data = fn(data);
 
+  if (!data) return;
+
   // 写入数据
-  writeFile<ITodo>(fileName, data);
+  writeFile<ITodo[]>(fileName, data);
 }
