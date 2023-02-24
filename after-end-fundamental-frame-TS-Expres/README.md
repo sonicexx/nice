@@ -149,9 +149,77 @@ app.get('/todolist', (req, res) => {
 
   // 访问地址测试：localhost:8080/todolist
 });
-app.post('/toggle', (req, res) => {});
-app.post('/remove', (req, res) => {});
-app.post('/add', (req, res) => {});
+
+// 修改complete
+app.post('/toggle', (req, res) => {
+  const id: number = +req.body.id;
+
+  fileOperator('data.json', function (data: ITodo[]) {
+    return data.map((item: ITodo) => {
+      if (item.id === id) {
+        item.completed = !item.completed;
+      }
+      return item;
+    });
+  });
+
+  res.send({
+    msg: 'toggle done',
+    status: 200,
+  });
+});
+
+// 删除
+app.post('/remove', (req, res) => {
+  const id: number = +req.body.id; //接受请求端传来的 id 数据
+
+  fileOperator('data.json', function (data: ITodo[]) {
+    // 函数操作：删除指定 id 的数据 》过滤出不等于 id 的数据
+    return data.filter((item: ITodo) => item.id !== id);
+  });
+
+  res.send({
+    msg: 'remove done',
+    status: 200,
+  });
+});
+
+// 增加
+app.post('/add', (req, res) => {
+  // 保存请求端传回的值
+  const myData: ITodo = JSON.parse(req.body.data);
+
+  // 已发送值标记
+  let i = 0;
+
+  fileOperator('data.json', function (data: ITodo[]) {
+    const _data: ITodo | undefined = data.find(
+      (item: ITodo) => item.content === myData.content
+    );
+
+    if (_data) {
+      res.send({
+        msg: 'add false',
+        status: 404,
+      });
+
+      i = 1;
+      return;
+    }
+
+    data.push(myData);
+    return data;
+  });
+
+  // 如果已发送错误信息，返回
+  if (i) return;
+
+  // 如果成功添加了内容，发送
+  res.send({
+    msg: 'add done',
+    status: 200,
+  });
+});
 
 // 设置监听
 app.listen(8080, () => {
@@ -163,7 +231,9 @@ app.listen(8080, () => {
 
 </details>
 
-##### 8. GET 方法测试
+##### 8. 方法测试
+
+###### - 1. GET
 
     浏览器访问：`http://localhost:8080/todolist`
 
@@ -171,5 +241,27 @@ app.listen(8080, () => {
  <summary>测试结果</summary>
 
 ![GET-test](img/GET测试.jpg)
+
+</details>
+
+###### - 2. 增加
+
+    浏览器访问：`http://localhost:8080/add`
+
+<details>
+ <summary>测试结果</summary>
+
+![ADD-test](img/ADD测试.png)
+
+</details>
+
+###### - 3. 删除
+
+    浏览器访问：`http://localhost:8080/remove`
+
+<details>
+ <summary>测试结果</summary>
+
+![remove-test](img/Remove测试.jpg)
 
 </details>
