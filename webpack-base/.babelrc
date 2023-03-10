@@ -1,0 +1,17 @@
+{
+  "presets": [
+    [
+      // 需要 兼容性考虑 再打开
+      // "@babel/preset-env",
+      // {
+      //   "useBuiltIns": "usage",
+      //   "corejs": 3
+      // },
+      "@babel/preset-typescript"
+    ]
+  ],
+  "plugins": [
+    // "@babel/plugin-transform-runtime",
+    "@babel/plugin-transform-typescript"
+  ]
+}
