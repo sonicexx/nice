@@ -95,3 +95,46 @@ window.addEventListener('resize', () => {
   renderer.setPixelRatio(window.devicePixelRatio);
 });
 // ========响应式布局========
+
+// ========GUI 控制插件========
+// npm i dat.gui
+// 不错的文档: https://juejin.cn/post/7201521440611532857
+import * as dat from 'dat.gui';
+const gui = new dat.GUI();
+const options = {
+  message: 'mydemo',
+  number: 0,
+};
+
+gui.add(options, 'message');
+const ctrl = gui.add(cube.position, 'x', 0, 1, 0.001).name('移动 x 轴');
+ctrl.onChange(val => {
+  cube.position.x = val;
+});
+ctrl.onFinishChange(val => {
+  console.log('finish', val);
+});
+
+// 颜色
+gui
+  .addColor(cube.material.color, 'r')
+  .name('物体颜色r')
+  .onChange(val => {
+    console.log(val);
+    cube.material.color.r = val;
+  });
+gui
+  .addColor(cube.material.color, 'g')
+  .name('物体颜色g')
+  .onChange(val => {
+    console.log(val);
+    cube.material.color.g = val;
+  });
+gui
+  .addColor(cube.material.color, 'b')
+  .name('物体颜色b')
+  .onChange(val => {
+    console.log(val);
+    cube.material.color.b = val;
+  });
+// ========GUI 控制插件========
