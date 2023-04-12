@@ -1,7 +1,14 @@
-// ========坐标轴控制器========
+/**
+ * 1 坐标轴
+ * 2 轨道控制器
+ * 3 物体控件: 移动 | 旋转 | 缩放
+ * 4 双击全屏
+ */
+
+// ========坐标轴========
 const axesHelper = new THREE.AxesHelper(1);
 scene.add(axesHelper);
-// ========坐标轴控制器========
+// ========坐标轴========
 
 // ========轨道控制器========
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -59,3 +66,17 @@ function initDragControls() {
   });
 }
 // ========模型控件========
+
+// ========双击全屏========
+window.addEventListener('dblclick', () => {
+  // 获取当前是否有全屏对象
+  const fullScreenEle = document.fullscreenElement;
+
+  // 没有就进全屏, 有就退出全屏
+  if (!fullScreenEle) {
+    renderer.domElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+// ========双击全屏========
