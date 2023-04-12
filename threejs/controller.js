@@ -3,6 +3,7 @@
  * 2 轨道控制器
  * 3 物体控件: 移动 | 旋转 | 缩放
  * 4 双击全屏
+ * 5 响应式布局
  */
 
 // ========坐标轴========
@@ -80,3 +81,17 @@ window.addEventListener('dblclick', () => {
   }
 });
 // ========双击全屏========
+
+// ========响应式布局========
+window.addEventListener('resize', () => {
+  // 更新摄像头
+  camera.aspect = window.innerWidth / window.innerHeight;
+  // 更新摄像机投影矩阵
+  camera.updateProjectionMatrix();
+
+  // 更新渲染器尺寸
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  // 更新渲染器像素比
+  renderer.setPixelRatio(window.devicePixelRatio);
+});
+// ========响应式布局========
