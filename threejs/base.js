@@ -1,3 +1,10 @@
+/**
+ * 一些场景基本配置
+ * 1 基础场景搭建
+ * 2 HDR 配置
+ */
+
+// ======== 基础场景搭建 ========
 // 导入库
 import * as THREE from 'three';
 
@@ -54,3 +61,16 @@ function ani() {
   requestAnimationFrame(ani); // 动画
 }
 ani();
+// ======== 基础场景搭建 ========
+
+// ======== HDR 配置 ========
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
+const rgbeLoader = new RGBELoader();
+rgbeLoader.loadAsync('./src/solitude_night_4k.hdr').then(tex => {
+  console.log(tex);
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+
+  scene.background = tex; // 控制是否显示为背景
+  scene.environment = tex; // hdr 灯光是否作用于物体
+});
+// ======== HDR 配置 ========
