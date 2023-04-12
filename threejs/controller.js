@@ -4,6 +4,8 @@
  * 3 物体控件: 移动 | 旋转 | 缩放
  * 4 双击全屏
  * 5 响应式布局
+ * 6 GUI 控制插件
+ * 7 物体点击事件
  */
 
 // ========坐标轴========
@@ -138,3 +140,28 @@ gui
     cube.material.color.b = val;
   });
 // ========GUI 控制插件========
+
+// ========物体点击事件========
+// 渲染器绑定事件
+renderer.domElement.addEventListener('click', findTar.bind(this, obj), false);
+// 物体点击事件
+function findTar(obj) {
+  const e = arguments[1] || window.e;
+  e.preventDefault();
+  var raycaster = new THREE.Raycaster();
+  var mouse = new THREE.Vector2();
+  mouse.x = (e.clientX / renderer.domElement.clientWidth) * 2 - 1;
+  mouse.y = -(e.clientY / renderer.domElement.clientHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  console.log(obj);
+  var intersects = raycaster.intersectObjects(obj, true);
+
+  console.log(intersects);
+  // 射线穿过物体数组
+  if (!intersects.length) return; //没有就不再执行
+  console.log(intersects[0].object); //数组首个为射线最先打到的对象
+
+  // do something
+  transformControls.attach(intersects[0].object); //比如: 将物体控件作用到被点击物体
+}
+// ========物体点击事件========
